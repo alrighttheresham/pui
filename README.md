@@ -8,6 +8,8 @@ A Command Line tool for interacting with proNX Service Manager REST APIs
 
 ## Usage
 
+      $ pui [global options] command [command options] [arguments...]
+
 ## Install
 
 To install, use `go get`:
