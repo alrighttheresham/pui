@@ -22,15 +22,15 @@ var Commands = []cli.Command{
 
 var commandProvision = cli.Command{
 	Name:  "provision",
-	Usage: "",
-	Description: `Provision a EVPLINE Service
+	Usage: "Provision a EVPLINE Service",
+	Description: `This operation does blah ...
 `,
 	Action: doProvision,
 }
 
 var commandModify = cli.Command{
 	Name:  "modify",
-	Usage: "",
+	Usage: "Modify the Bandwidth for a Service",
 	Description: `
 `,
 	Action: doModify,
@@ -38,7 +38,7 @@ var commandModify = cli.Command{
 
 var commandSla = cli.Command{
 	Name:  "sla",
-	Usage: "",
+	Usage: "Setup SLA monitoring for a Provisioned Service",
 	Description: `
 `,
 	Action: doSla,
@@ -46,7 +46,7 @@ var commandSla = cli.Command{
 
 var commandCir = cli.Command{
 	Name:  "cir",
-	Usage: "",
+	Usage: "Retrieve the provisioned CIR on a UNI in a Service",
 	Description: `
 `,
 	Action: doCir,
@@ -54,7 +54,7 @@ var commandCir = cli.Command{
 
 var commandCvlan = cli.Command{
 	Name:  "cvlan",
-	Usage: "",
+	Usage: "Confirm C-VLAN in use",
 	Description: `
 `,
 	Action: doCvlan,
@@ -62,7 +62,7 @@ var commandCvlan = cli.Command{
 
 var commandJitter = cli.Command{
 	Name:  "jitter",
-	Usage: "",
+	Usage: "Retrieve current PM data for Avg SLA Jitter",
 	Description: `
 `,
 	Action: doJitter,
@@ -70,7 +70,7 @@ var commandJitter = cli.Command{
 
 var commandFrameloss = cli.Command{
 	Name:  "frameloss",
-	Usage: "",
+	Usage: "Retrieve current PM data for Frame loss",
 	Description: `
 `,
 	Action: doFrameloss,
@@ -78,7 +78,7 @@ var commandFrameloss = cli.Command{
 
 var commandLatency = cli.Command{
 	Name:  "latency",
-	Usage: "",
+	Usage: "Retrieve current PM data for Latency",
 	Description: `
 `,
 	Action: doLatency,
@@ -86,7 +86,7 @@ var commandLatency = cli.Command{
 
 var commandUtilisation = cli.Command{
 	Name:  "utilisation",
-	Usage: "",
+	Usage: "Retrieve current PM data for Service Utilization",
 	Description: `
 `,
 	Action: doUtilisation,
@@ -94,7 +94,7 @@ var commandUtilisation = cli.Command{
 
 var commandDiscards = cli.Command{
 	Name:  "discards",
-	Usage: "",
+	Usage: "Retrieve current PM data for Service discards",
 	Description: `
 `,
 	Action: doDiscards,
