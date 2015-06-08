@@ -1,5 +1,5 @@
 package main
- 
+
 import (
 	"log"
 	"os"
@@ -25,6 +25,20 @@ var commandProvision = cli.Command{
 	Usage: "Provision a EVPLINE Service",
 	Description: `This operation does blah ...
 `,
+	Flags: []cli.Flag{
+		cli.StringFlag{
+			Name:  "name",
+			Usage: "The label to be used for the service name.",
+		},
+		cli.StringFlag{
+			Name:  "domain",
+			Usage: "The ethernet management name to be provisioned into.",
+		},
+		cli.IntFlag{
+			Name:  "svlan",
+			Usage: "There service vlan to be used in the assignment",
+		},
+	},
 	Action: doProvision,
 }
 
