@@ -1,157 +1,66 @@
 package main
 
 import (
-	"log"
-	"os"
-
+	"fmt"
 	"github.com/codegangsta/cli"
+	"github.com/fatih/color"
+	"github.com/shirou/gopsutil/cpu"
+	"github.com/shirou/gopsutil/host"
+	"github.com/shirou/gopsutil/mem"
 )
 
 var Commands = []cli.Command{
-	commandProvision,
-	commandModify,
-	commandSla,
-	commandCir,
-	commandCvlan,
-	commandJitter,
-	commandFrameloss,
-	commandLatency,
-	commandUtilisation,
-	commandDiscards,
+	commandCheck,
+	commandInit,
 }
 
-var commandProvision = cli.Command{
-	Name:  "provision",
-	Usage: "Provision a EVPLINE Service",
-	Description: `This operation does blah ...
-`,
-	Flags: []cli.Flag{
-		cli.StringFlag{
-			Name:  "name",
-			Usage: "The label to be used for the service name.",
-		},
-		cli.StringFlag{
-			Name:  "domain",
-			Usage: "The ethernet management name to be provisioned into.",
-		},
-		cli.IntFlag{
-			Name:  "svlan",
-			Usage: "There service vlan to be used in the assignment",
-		},
-	},
-	Action: doProvision,
-}
-
-var commandModify = cli.Command{
-	Name:  "modify",
-	Usage: "Modify the Bandwidth for a Service",
+var commandCheck = cli.Command{
+	Name:  "check",
+	Usage: "Run a set of tests to confirm the host is suitable for PSM",
 	Description: `
 `,
-	Action: doModify,
+	Action: doCheck,
 }
-
-var commandSla = cli.Command{
-	Name:  "sla",
-	Usage: "Setup SLA monitoring for a Provisioned Service",
+var commandInit = cli.Command{
+	Name:  "init",
+	Usage: "Provide a summary of the current PSM installation",
 	Description: `
 `,
-	Action: doSla,
+	Action: doInit,
 }
 
-var commandCir = cli.Command{
-	Name:  "cir",
-	Usage: "Retrieve the provisioned CIR on a UNI in a Service",
-	Description: `
-`,
-	Action: doCir,
-}
-
-var commandCvlan = cli.Command{
-	Name:  "cvlan",
-	Usage: "Confirm C-VLAN in use",
-	Description: `
-`,
-	Action: doCvlan,
-}
-
-var commandJitter = cli.Command{
-	Name:  "jitter",
-	Usage: "Retrieve current PM data for Avg SLA Jitter",
-	Description: `
-`,
-	Action: doJitter,
-}
-
-var commandFrameloss = cli.Command{
-	Name:  "frameloss",
-	Usage: "Retrieve current PM data for Frame loss",
-	Description: `
-`,
-	Action: doFrameloss,
-}
-
-var commandLatency = cli.Command{
-	Name:  "latency",
-	Usage: "Retrieve current PM data for Latency",
-	Description: `
-`,
-	Action: doLatency,
-}
-
-var commandUtilisation = cli.Command{
-	Name:  "utilisation",
-	Usage: "Retrieve current PM data for Service Utilization",
-	Description: `
-`,
-	Action: doUtilisation,
-}
-
-var commandDiscards = cli.Command{
-	Name:  "discards",
-	Usage: "Retrieve current PM data for Service discards",
-	Description: `
-`,
-	Action: doDiscards,
-}
-
-func debug(v ...interface{}) {
-	if os.Getenv("DEBUG") != "" {
-		log.Println(v...)
+func testHasPassed(message string, passed bool) {
+	if passed {
+		fmt.Printf(message+" ... %s\n", color.GreenString("Pass"))
+	} else {
+		fmt.Printf(message+" ... %s\n", color.RedString("Fail"))
 	}
 }
 
-func assert(err error) {
-	if err != nil {
-		log.Fatal(err)
+func doCheck(c *cli.Context) {
+	fmt.Printf("Running Checks ...\n")
+	host, _ := host.HostInfo()
+	if host.PlatformFamily != "rhel" {
+		testHasPassed("Confirm running on Redhat Linux host", false)
+		// return
+	} else {
+		testHasPassed("Confirm running on Redhat Linux host", true)
 	}
+	ram, _ := mem.VirtualMemory()
+	if ram.Total/1073741824 >= 8 {
+		testHasPassed("Minimum amount of Memory", true)
+	} else {
+		testHasPassed("Minimum amount of Memory", false)
+	}
+	counts, _ := cpu.CPUCounts(true)
+	if counts >= 4 {
+		testHasPassed("Minimum amount of CPUs", true)
+	} else {
+		testHasPassed("Minimum amount of CPUs", false)
+	}
+
 }
 
-func doProvision(c *cli.Context) {
-}
+func doInit(c *cli.Context) {
 
-func doModify(c *cli.Context) {
-}
-
-func doSla(c *cli.Context) {
-}
-
-func doCir(c *cli.Context) {
-}
-
-func doCvlan(c *cli.Context) {
-}
-
-func doJitter(c *cli.Context) {
-}
-
-func doFrameloss(c *cli.Context) {
-}
-
-func doLatency(c *cli.Context) {
-}
-
-func doUtilisation(c *cli.Context) {
-}
-
-func doDiscards(c *cli.Context) {
 }
