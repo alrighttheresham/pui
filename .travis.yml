@@ -5,7 +5,7 @@ env:
   - "PATH=/home/travis/gopath/bin:$PATH"
 before_install:
   - go get github.com/mitchellh/gox
-  - gox -build-toolchain -osarch="darwin/amd64 linux/amd64 windows/386 windows/amd64"
+  - gox -build-toolchain -osarch="darwin/amd64 linux/amd64 windows/amd64"
   - go get github.com/tcnksm/ghr
   - go get github.com/axw/gocov/gocov
   - go get github.com/mattn/goveralls
@@ -14,5 +14,5 @@ script:
   - go test -v -covermode=count -coverprofile=coverage.out ./...
   - goveralls -coverprofile=coverage.out -service travis-ci -repotoken $COVERALLS_TOKEN
 after_success:
-  - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}" -osarch="darwin/amd64 linux/amd64 windows/386 windows/amd64"
+  - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}" -osarch="darwin/amd64 linux/amd64 windows/amd64"
   - ghr --username btisystems --token $GITHUB_TOKEN --replace --prerelease --debug pre-release dist/
